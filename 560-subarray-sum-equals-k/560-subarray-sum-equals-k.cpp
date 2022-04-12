@@ -10,12 +10,11 @@ public:
 		for (int i=0;i<nums.size();i++) {
 			sum += nums[i];
 
-			if (mp[sum - k]!=0)
+			if (mp[sum - k] > 0)
                 count += mp[sum-k];  
             
 			mp[sum]++;
 		}
-    
             
 		return count;
     }

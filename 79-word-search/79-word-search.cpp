@@ -11,10 +11,10 @@ public:
         
         board[i][j] = '-';
         
-        bool ans = solve(board, word, i+1, j, n+1) ||  
-                        solve(board, word, i, j+1, n+1) || 
-                        solve(board, word, i-1, j, n+1) || 
-                        solve(board, word, i, j-1, n+1); 
+        bool ans =  solve(board, word, i+1, j, n+1) ||  
+                    solve(board, word, i, j+1, n+1) || 
+                    solve(board, word, i-1, j, n+1) || 
+                    solve(board, word, i, j-1, n+1); 
         
 
         board[i][j] = word[n];

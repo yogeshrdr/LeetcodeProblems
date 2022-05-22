@@ -10,6 +10,7 @@ public:
         vector<int> temp2 = temp;
         temp2.push_back(nums[index]);
         
+    
         solve(ans, temp1, nums, index+1);
         solve(ans, temp2, nums, index+1);
     }

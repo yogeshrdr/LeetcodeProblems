@@ -1,12 +1,19 @@
 class Solution {
 public:
     bool divisorGame(int n) {
-        if(n==1)
-            return false;
+        vector<bool> dp(n+1);
+        dp[0]=false;
+        dp[1]=false;
+        dp[2]=true;
         
-        if(divisorGame(n-1) == false)
-            return true;
+        for(int i=3;i<=n;i++){
+            if(dp[i-1]==false)
+                dp[i]=true;
+            else
+                dp[i]=false;
+            
+        }
         
-        return false;
+        return dp[n];
     }
 };

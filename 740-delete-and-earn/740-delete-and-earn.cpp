@@ -1,8 +1,7 @@
 class Solution {
 public:    
-    int memo[20001];
     
-    int solve(vector<int>&nums, int i){
+    int solve(vector<int>&nums, int i, vector<int>&memo){
         if(i>=nums.size())
             return 0;
         
@@ -20,7 +19,7 @@ public:
         while(j<nums.size() && nums[j] == nums[i]+1)
             j++;
         
-        memo[i] = max( sum + solve(nums, j), solve(nums, i+1));
+        memo[i] = max( sum + solve(nums, j, memo), solve(nums, i+1, memo));
         
         return memo[i];
     }
@@ -28,9 +27,10 @@ public:
     
     int deleteAndEarn(vector<int>& nums) {
         sort(nums.begin(), nums.end());
+    
         
-        memset(memo, -1, sizeof(memo));
+        vector<int> memo(20001, -1);
         
-        return solve(nums, 0);
+        return solve(nums, 0, memo);
     }
 };

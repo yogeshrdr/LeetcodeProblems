@@ -1,22 +1,24 @@
 class Solution {
 public:
-    void solve(vector<string>&ans, unordered_map<char, string> mp, string digits, int index, string temp){
-        
-        if(index == digits.length()){
+    
+    void solve(string digits, vector<string>&ans, unordered_map<char, string>&mp, int i, string temp){
+        if(i==digits.length()){
             ans.push_back(temp);
             return;
         }
         
-        for(auto i: mp[digits[index]])
-            solve(ans, mp, digits, index+1, temp+i);
+        string x = mp[digits[i]];
+        
+        for(auto j:x){
+            solve(digits, ans, mp, i+1, temp+j);
+        }
     }
     
-    
     vector<string> letterCombinations(string digits) {
-        vector<string> ans;
+        if(digits.length() == 0)
+            return {};
         
-        if(digits.length() <= 0)
-            return ans;
+        vector<string> ans;
         
         unordered_map<char, string> mp;
         
@@ -29,9 +31,7 @@ public:
         mp['8'] = "tuv";
         mp['9'] = "wxyz";
         
-        int index = 0;
-        
-        solve(ans, mp, digits, 0, "");
+        solve(digits, ans, mp, 0, "");
         
         return ans;
     }

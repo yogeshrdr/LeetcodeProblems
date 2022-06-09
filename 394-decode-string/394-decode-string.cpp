@@ -12,7 +12,6 @@ public:
             if(isdigit(i))
                 x = x*10 + i - '0';
             
-            
             else if(i == '['){
                 s1.push(x);
                 s2.push(temp);

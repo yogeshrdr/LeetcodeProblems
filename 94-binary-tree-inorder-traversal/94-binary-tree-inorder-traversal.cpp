@@ -11,29 +11,18 @@
  */
 class Solution {
 public:
-    vector<int> inorderTraversal(TreeNode* root) { 
+    void solve(TreeNode* root, vector<int>&ans){
+        if(root == NULL)
+            return;
         
+        solve(root->left, ans);
+        ans.push_back(root->val);
+        solve(root->right, ans);
+    }
+    
+    vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
-        stack<TreeNode*> s;
-        
-        TreeNode *temp = root;
-        
-        while (temp  || !s.empty()) {
-            
-            while (temp) {
-                s.push(temp);
-                temp  = temp -> left;
-            }
-            
-            temp  = s.top();
-            
-            s.pop();
-            
-            ans.push_back(temp  -> val);
-            temp = temp->right;
-        }
-        
+        solve(root, ans);
         return ans;
-        
     }
 };

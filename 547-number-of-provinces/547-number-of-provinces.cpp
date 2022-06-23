@@ -1,26 +1,60 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>&isConnected, vector<int>&visited, int i){
-        for(int j=0;j<isConnected.size();j++){
-            if(isConnected[i][j]==1 && visited[j]==0){
-                visited[j] = 1;
-                dfs(isConnected, visited, j);
-            }
-        }
+     
+    int find(int i, vector<int>& parent){
+        if(parent[i] == i) 
+            return i;
+        
+        return parent[i] = find(parent[i], parent);
     }
     
-    
-    int findCircleNum(vector<vector<int>>& isConnected) {
-        vector<int> visited(isConnected.size(), 0);
-        int count = 0;
+    void Union(int city1, int city2, vector<int>& rank, vector<int>& parent){
+        int x1 = find(city1, parent);
+        int x2 = find(city2, parent);
+
+        if(rank[x1] == rank[x2]){
+            parent[x2] = x1;
+            rank[x1]++;
+        }
         
-        for(int i=0;i<isConnected.size();i++){
-            if(visited[i]==0){
-                dfs(isConnected, visited, i);
-                count++;
+        else if(rank[x1] > rank[x2])
+            parent[x2] = x1;
+        
+        else
+            parent[x1] = x2;
+    }
+    
+    void makeSet(int n, vector<int>& parent){
+       
+    }
+       
+    int findCircleNum(vector<vector<int>>& isConnected) {
+         int n = isConnected.size();
+        
+        vector<int> parent(n);
+        vector<int> rank(n, 0);
+        
+        
+        for(int i = 0; i < n; i++)
+            parent[i] = i;
+        
+        
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(isConnected[i][j]){
+                    Union(i, j, rank, parent);
+                }
             }
         }
         
-        return count;
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            if(parent[i] == i)
+                ans++;
+        }
+        
+        
+        return ans;
+       
     }
 };

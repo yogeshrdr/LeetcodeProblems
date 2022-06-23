@@ -1,60 +1,52 @@
 class Solution {
 public:
-     
-    int find(int i, vector<int>& parent){
-        if(parent[i] == i) 
-            return i;
+    
+    int find(vector<int>&parent, int x){
+        if(x == parent[x])
+            return x;
         
-        return parent[i] = find(parent[i], parent);
+        return parent[x] = find(parent, parent[x]);
     }
     
-    void Union(int city1, int city2, vector<int>& rank, vector<int>& parent){
-        int x1 = find(city1, parent);
-        int x2 = find(city2, parent);
-
-        if(rank[x1] == rank[x2]){
-            parent[x2] = x1;
-            rank[x1]++;
+    
+    void Union(vector<int>&parent, vector<int>&rank, int x, int y){
+        int i = find(parent, x);
+        int j = find(parent, y);
+        
+        if(rank[i] == rank[j]){
+            parent[j] = i;
+            rank[i]++;
         }
         
-        else if(rank[x1] > rank[x2])
-            parent[x2] = x1;
-        
+        else if(rank[i] > rank[j])
+            parent[i] = j;
         else
-            parent[x1] = x2;
+            parent[j] = i;
     }
     
-    void makeSet(int n, vector<int>& parent){
-       
-    }
-       
+    
     int findCircleNum(vector<vector<int>>& isConnected) {
-         int n = isConnected.size();
+        
+        int n = isConnected.size();
         
         vector<int> parent(n);
-        vector<int> rank(n, 0);
+        vector<int> rank(n,0);
         
-        
-        for(int i = 0; i < n; i++)
+        for(int i=0;i<n;i++)
             parent[i] = i;
         
-        
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(isConnected[i][j]){
-                    Union(i, j, rank, parent);
-                }
-            }
-        }
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                if(isConnected[i][j])
+                    Union(parent,rank,i,j);
         
         int ans = 0;
-        for(int i = 0; i < n; i++){
-            if(parent[i] == i)
+        
+        for(int i=0;i<n;i++){
+            if(parent[i]==i)
                 ans++;
         }
         
-        
         return ans;
-       
     }
 };

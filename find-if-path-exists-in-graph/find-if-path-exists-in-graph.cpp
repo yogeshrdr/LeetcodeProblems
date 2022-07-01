@@ -1,28 +1,28 @@
 class Solution {
 public:
-    int find(vector<int>&parent, int x){
-        if(x == parent[x])
-            return x;
-        
-        return parent[x] = find(parent, parent[x]);
-    }
     
-    void Union(vector<int>&parent, int x, int y){
-        int i = find(parent, x);
-        int j = find(parent, y);
+    void dfs(vector<vector<int>>&adj, int src, vector<bool>&visited) {
+        visited[src] = true;
         
-        parent[i] = j;
+        for (auto i : adj[src]) {
+            if(!visited[i])
+                dfs(adj, i, visited);
+        }
     }
+
     
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
-        vector<int> parent(n);
+        vector<bool> visited(n, false);
         
-        for(int i=0;i<n;i++)
-            parent[i] = i;
+        vector<vector<int>> adj(n);
         
-        for(auto i: edges)
-            Union(parent,i[0], i[1]);
+        for (auto i: edges) {
+            adj[i[0]].push_back(i[1]);
+            adj[i[1]].push_back(i[0]);
+        }
         
-        return find(parent, source) == find(parent, destination);
+        dfs(adj, source, visited);
+        
+        return visited[destination];
     }
 };

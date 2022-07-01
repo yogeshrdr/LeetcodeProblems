@@ -1,12 +1,22 @@
 class Solution {
 public:
     
-    void dfs(vector<vector<int>>&adj, int src, vector<bool>&visited) {
+    void bfs(vector<vector<int>>&adj, int src, vector<bool>&visited) {
+        queue<int> q;
         visited[src] = true;
         
-        for (auto i : adj[src]) {
-            if(!visited[i])
-                dfs(adj, i, visited);
+        q.push(src);
+        
+        while(!q.empty()){
+            int temp = q.front();
+            q.pop();
+            
+            for(int i: adj[temp]){
+                if(!visited[i]){
+                    visited[i] = true;
+                    q.push(i);
+                }
+            }
         }
     }
 
@@ -21,7 +31,7 @@ public:
             adj[i[1]].push_back(i[0]);
         }
         
-        dfs(adj, source, visited);
+        bfs(adj, source, visited);
         
         return visited[destination];
     }

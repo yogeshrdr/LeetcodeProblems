@@ -42,15 +42,12 @@ public:
                 j--;
             }
             
-            else if(dp[i-1][j] > dp[i][j-1]){
-                lcs += text2[j-1];
+            else if(dp[i-1][j] > dp[i][j-1])
                 j--;
-            }
             
-            else{
-                lcs += text1[i-1];
+            else
                 i--;
-            }
+            
                 
         }
         

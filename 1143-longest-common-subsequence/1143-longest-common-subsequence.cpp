@@ -32,6 +32,33 @@ public:
             }
         
         
+        int i=n, j=m;
+        string lcs = "";
+        
+        while(i>0 && j>0){
+            if(text1[i-1] == text2[j-1]){
+                lcs += text1[i-1];
+                i--;
+                j--;
+            }
+            
+            else if(dp[i-1][j] > dp[i][j-1]){
+                lcs += text2[j-1];
+                j--;
+            }
+            
+            else{
+                lcs += text1[i-1];
+                i--;
+            }
+                
+        }
+        
+        reverse(lcs.begin(), lcs.end());
+        
+        cout<<lcs<<endl;
+        
+        
         return dp[n][m];
     }
 };

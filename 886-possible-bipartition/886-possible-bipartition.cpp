@@ -1,37 +1,36 @@
 class Solution {
 public:
-   
-    bool solve(vector<vector<int>>&graph, int i, int col, vector<int>&color){
+    
+	bool solve(int node, int newcolor, vector<int> adj[], vector<int>&color){
+		color[node] = newcolor;
         
-        color[i] = col;
+		for (auto i : adj[node]){
+			if (color[i] == -1)
+				solve(i, 1-newcolor, adj, color);
+			
+			else if (color[i] == color[node])
+				return false;
+			
+		}
         
-        for(auto x: graph[i]){
-            if(color[x] == color[i])
-                return false;
-            
-            if(color[x] == 0 && !solve(graph, x, -col, color))
-                return false;
- 
-        }
-        
-        return true;
-    }
+		return true;
+	}
     
     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
-        vector<vector<int>> graph(n+1);
+		vector<int> adj[n + 1];
         
-        for(auto i: dislikes) {
-            graph[i[0]].push_back(i[1]);
-            graph[i[1]].push_back(i[0]);
-        }
+		for (auto i : dislikes){
+			adj[i[0]].push_back(i[1]);
+			adj[i[1]].push_back(i[0]);
+		}
+
+		vector<int>color(n+1, -1);
         
-        vector<int> color(n+1, 0);
-        
-        for(int i=1;i<=n;i++){
-            if(color[i] == 0 && !solve(graph, i, 1, color))
-                return false;
-        }
-        
-        return true;
+		for (int i=1;i<=n;i++)
+			if (color[i] == -1)
+				if (!solve(i, 1, adj, color))
+					return false;
+				
+		return true;
     }
 };

@@ -1,37 +1,32 @@
 class Solution {
 public:
+    vector<string> alp = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
     
-    void solve(string digits, vector<string>&ans, unordered_map<char, string>&mp, int i, string temp){
-        if(i==digits.length()){
+    void solve(string digits, vector<string>&ans, string&temp, int idx){
+        if(idx == digits.size()){
             ans.push_back(temp);
             return;
         }
         
-        string x = mp[digits[i]];
+        int x = digits[idx] - '0';
+        string str = alp[x];
         
-        for(auto j:x){
-            solve(digits, ans, mp, i+1, temp+j);
+        for(int i=0;i<str.size();i++){
+            temp.push_back(str[i]);
+            solve(digits, ans, temp, idx+1);
+            temp.pop_back();
         }
     }
     
     vector<string> letterCombinations(string digits) {
-        if(digits.length() == 0)
-            return {};
-        
         vector<string> ans;
         
-        unordered_map<char, string> mp;
+        if(digits.size() <=0)
+            return ans;
         
-        mp['2'] = "abc";
-        mp['3'] = "def";
-        mp['4'] = "ghi";
-        mp['5'] = "jkl";
-        mp['6'] = "mno";
-        mp['7'] = "pqrs";
-        mp['8'] = "tuv";
-        mp['9'] = "wxyz";
+        string temp;
         
-        solve(digits, ans, mp, 0, "");
+        solve(digits, ans, temp, 0);
         
         return ans;
     }

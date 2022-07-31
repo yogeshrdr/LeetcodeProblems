@@ -9,8 +9,8 @@ public:
             count[i[1]]++;
         }
         
-        for(int i=1;i<n+1;i++)
-            cout<<i<<"->"<<count[i]<<endl;
+        // for(int i=1;i<n+1;i++)
+        //     cout<<i<<"->"<<count[i]<<endl;
         
         for(int i=1;i<n+1;i++){
             if(adj[i].size() == 0 && count[i] >= n)
